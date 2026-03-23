@@ -162,6 +162,20 @@ def generate_specific_changes(resume: str, job_desc: str, missing_keywords: List
 
     return changes[:15]
 
+def detect_section(line: str) -> str | None:
+    """Return the section name if the line is a section header."""
+    headers = {
+        "skills": ["skills", "technical skills", "core competencies"],
+        "experience": ["experience", "work experience", "professional experience", "work history"],
+        "education": ["education"],
+    }
+
+    lower = line.strip().lower()
+    for section, keywords in headers.items():
+        if any(k in lower for k in keywords):
+            return section
+    return None
+
 
 def analyze_resume(resume: str, job_desc: str | None) -> Dict:
     """Main analysis function."""
